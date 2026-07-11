@@ -24,7 +24,7 @@ BEGIN
         DepartmentEmail NVARCHAR(100) NULL,
 
         CONSTRAINT UQ_Department_DepartmentEmail
-            UNIQUE (DepartmentEmail)
+            UNIQUE (DepartmentEmail) , 
 
         IsActive BIT NOT NULL
             CONSTRAINT DF_Department_IsActive DEFAULT (1),
