@@ -212,30 +212,34 @@ BEGIN
         THROW 50063, 'Invalid Role.', 1;
     END;
 
-    ---------------------------------------------------------
-    -- Validate Manager
-    ---------------------------------------------------------
+---------------------------------------------------------
+-- Validate Self Reporting
+---------------------------------------------------------
 
-    IF @ManagerId IS NOT NULL
-       AND NOT EXISTS
-    (
-        SELECT 1
-        FROM dbo.Employee
-        WHERE EmployeeId = @ManagerId
-          AND IsActive = 1
-    )
-    BEGIN
-        THROW 50064, 'Invalid Manager.', 1;
-    END;
+IF @ManagerId = @EmployeeId
+BEGIN
+    THROW 50065,
+          'Employee cannot be their own manager.',
+          1;
+END;
 
-    ---------------------------------------------------------
-    -- Validate Self Reporting
-    ---------------------------------------------------------
+---------------------------------------------------------
+-- Validate Manager
+---------------------------------------------------------
 
-    IF @ManagerId = @EmployeeId
-    BEGIN
-        THROW 50065, 'Employee cannot be their own manager.', 1;
-    END;
+IF @ManagerId IS NOT NULL
+   AND NOT EXISTS
+(
+    SELECT 1
+    FROM dbo.Employee
+    WHERE EmployeeId = @ManagerId
+      AND IsActive = 1
+)
+BEGIN
+    THROW 50064,
+          'Invalid Manager.',
+          1;
+END;
 
         ---------------------------------------------------------
     -- Update Employee
