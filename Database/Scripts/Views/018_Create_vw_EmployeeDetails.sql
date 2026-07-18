@@ -11,29 +11,30 @@ SELECT
     ---------------------------------------------------------
 
     E.EmployeeId,
+    E.EmployeeCode,
     E.FirstName,
     E.LastName,
 
-    CONCAT(E.FirstName, ' ', ISNULL(E.LastName, '')) AS FullName,
-
+    dbo.fn_GetEmployeeFullName(E.EmployeeId) AS FullName,
     ---------------------------------------------------------
     -- Gender
     ---------------------------------------------------------
-
+    E.GenderId,
     G.GenderCode,
     G.GenderName,
 
     ---------------------------------------------------------
     -- Department
     ---------------------------------------------------------
-
+    
+    E.DepartmentId,
     D.DepartmentCode,
     D.DepartmentName,
 
     ---------------------------------------------------------
     -- Role
     ---------------------------------------------------------
-
+    E.RoleId,
     R.RoleCode,
     R.RoleName,
 
@@ -57,6 +58,17 @@ SELECT
     E.Email,
     E.PhoneNumber,
 
+
+   ---------------------------------------------------------
+    -- Employment
+    ---------------------------------------------------------
+
+    E.DateOfBirth,
+    E.HireDate,
+    dbo.fn_GetEmployeeAge(E.EmployeeId) AS Age,
+    dbo.fn_GetEmployeeExperience(E.EmployeeId) AS Experience,
+    E.Salary,
+    E.TotalExperience,
     ---------------------------------------------------------
     -- Address
     ---------------------------------------------------------
@@ -67,15 +79,6 @@ SELECT
     E.State,
     E.Country,
     E.PinCode,
-
-    ---------------------------------------------------------
-    -- Employment
-    ---------------------------------------------------------
-
-    E.DateOfBirth,
-    E.HireDate,
-    E.Salary,
-    E.TotalExperience,
 
     ---------------------------------------------------------
     -- Status
@@ -98,4 +101,4 @@ INNER JOIN dbo.Role AS R
 LEFT JOIN dbo.Employee AS M
     ON E.ManagerId = M.EmployeeId;
 
-GO
+GO 
