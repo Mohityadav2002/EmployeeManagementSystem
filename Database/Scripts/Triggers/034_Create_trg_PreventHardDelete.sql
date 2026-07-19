@@ -8,8 +8,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    THROW 50001,
-    'Hard Delete is not allowed. Use sp_DeleteEmployee (Soft Delete) instead.',
-    1;
+    THROW 50007,
+          'Hard delete is not allowed. Please use dbo.sp_DeleteEmployee for soft delete.',
+          1;
 END;
-GO
+GO   
